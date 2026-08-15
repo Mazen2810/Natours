@@ -4,6 +4,17 @@ const handleCastErrorDB = err => {
   const message = `Invalid ${err.path} : ${err.value}`;
   return new AppError(message, 400);
 };
+const handleDuplicationErrorDB = err => {
+  const value = err.message.match(/(?<=")[^"]*(?=")/);
+  const message = `Duplicate field value: ${value}. Please use another value`;
+  return new AppError(message, 400);
+};
+
+const handleValidationErrorDB = err => {
+  const errors = Object.values(err.errors).map(el => el.message);
+  const message = `Invalid Input Data. ${errors.join('. ')}`;
+  return new AppError(message, 400);
+};
 const sendErrorDev = (err, res) => {
   res.status(err.statusCode).json({
     status: err.status,
@@ -36,6 +47,9 @@ module.exports = (err, req, res, next) => {
   } else if (process.env.NODE_ENV === 'production') {
     let error = { ...err, message: err.message, name: err.name };
     if (error.name === 'CastError') error = handleCastErrorDB(error);
+    if (error.code === 11000) error = handleDuplicationErrorDB(error);
+    if (error.name === 'ValidationError')
+      error = handleValidationErrorDB(error);
     sendErrorProd(error, res);
   }
 };
