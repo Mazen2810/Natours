@@ -4,8 +4,8 @@
   "description": "Learning node, express and mongoDB",
   "main": "app.js",
   "scripts": {
-    "start": "set NODE_ENV=development&& nodemon server.js",
-    "start:prod": "set NODE_ENV=production&& nodemon server.js",
+    "start": "nodemon server.js",
+    "start:prod": "set ENV_NAME=production&& nodemon server.js",
     "debug": "ndb server.js"
   },
   "author": "Mazen Mohamed",
@@ -14,6 +14,7 @@
     "bcryptjs": "^3.0.3",
     "dotenv": "^7.0.0",
     "express": "^4.16.4",
+    "jsonwebtoken": "^9.0.3",
     "mongoose": "^5.13.23",
     "morgan": "^1.9.1",
     "ndb": "^1.1.5",
