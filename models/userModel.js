@@ -46,6 +46,14 @@ userSchema.pre('save', async function(next) {
   this.passwordConfirm = undefined;
 });
 
+userSchema.methods.correctPassword = async function(
+  candidatePassword,
+  userPassword
+) {
+  const compare = await bcrypt.compare(candidatePassword, userPassword);
+  return compare;
+};
+
 const User = mongoose.model('User', userSchema);
 
 module.exports = User;
