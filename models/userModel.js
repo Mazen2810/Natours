@@ -41,13 +41,22 @@ const userSchema = mongoose.Schema({
   },
   passwordChangedAt: Date,
   passwordResetToken: String,
-  passwordResetExpires: Date
+  passwordResetExpires: Date,
+  isActive: {
+    type: Boolean,
+    default: true,
+    select: false
+  }
 });
+
 userSchema.set('toJSON', {
   transform(doc, ret) {
     delete ret.password;
     return ret;
   }
+});
+userSchema.pre(/^find/, function() {
+  this.find({ isActive: { $ne: false } });
 });
 
 userSchema.pre('save', async function(next) {

@@ -159,7 +159,7 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
   createAndSendToken(user, 201, res);
 });
 
-exports.updatePassword = catchAsync(async (req, res, next) => {
+exports.updateMyPassword = catchAsync(async (req, res, next) => {
   // 1. Get user from collection
   const user = await User.findById(req.user.id).select('+password');
   if (!user) {
