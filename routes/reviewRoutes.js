@@ -10,7 +10,13 @@ router
   .post(
     authController.protect,
     authController.restrictTo('user'),
+    reviewController.addUserIdReviewId,
     reviewController.addReview
   );
+
+router
+  .route('/:id')
+  .patch(reviewController.updateReview)
+  .delete(reviewController.deleteReview);
 
 module.exports = router;
