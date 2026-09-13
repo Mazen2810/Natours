@@ -9,6 +9,7 @@ exports.addUserIdReviewId = (req, res, next) => {
   next();
 };
 
+exports.getReview = factory.getOne(Review);
 exports.getAllReviews = factory.getAll(Review);
 exports.addReview = factory.createOne(Review);
 exports.updateReview = factory.updateOne(Review);
